@@ -45,4 +45,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function organizedEvents()
+    {
+        return $this->hasMany(Event::class, 'organizer_id');
+    }
+
+    public function rsvps()
+    {
+        return $this->hasMany(RSVP::class);
+    }
+
+    public function attendingEvents()
+    {
+        return $this->belongsToMany(Event::class, 'rsvps')->withPivot('status');
+    }
 }
