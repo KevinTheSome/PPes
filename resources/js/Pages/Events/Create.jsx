@@ -1,38 +1,41 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
-import { usePage } from "@inertiajs/react";
+import {usePage} from "@inertiajs/react";
 import axios from "axios";
 
 export default function Create() {
+    const { data, setData, post, processing, errors } = useForm({
+        organizer_id: usePage().props.auth.user.id,
+        title: "",
+        description: "",
+        start_time: "",
+        end_time: "",
+        location: "",
+        capacity: 1,
+        image: [],
+    });
     const user = usePage().props.auth.user;
+
+    useEffect(() => {
+        if (user.status == "user") {
+            window.location.href = route("dashboard");
+        }
+    }, []);
 
     function handleSubmit(event) {
         event.preventDefault();
-
-        const formData = new FormData(event.target);
-        console.log(formData)
-        const data = {
-            title: formData.get("title"),
-            description: formData.get("description"),
-            start_time: formData.get("date_start"),
-            end_time: formData.get("date_end"),
-            location: formData.get("location"),
-            capacity: formData.get("capacity"),
-            organizer_id: user.id,
-        };
-        console.log(data.end_time, data.start_time);
         if(!checkDates()) {
             alert("Invalid DATAAAAA!!!");
             return;
-        } 
-        axios.post("/api/create", data);
+        }
+        console.log(data);
+        post(route("api.create"));
     }
 
-    
     function checkDates() {
-        const startDate = new Date(document.getElementById("date_start").value);
-        const endDate = new Date(document.getElementById("date_end").value);
-        console.log(startDate, endDate);
+        const startDate = new Date(data.start_time);
+        const endDate = new Date(data.end_time);
         if (startDate > endDate) {
             alert("Date begin cannot be after date end");
             return false;
@@ -40,13 +43,6 @@ export default function Create() {
         return true;
     }
 
-
-    useEffect(() => {
-        console.log(user);
-        if (user.status == "user") {
-            window.location.href = route("dashboard");
-        }
-    }, []);
     return (
         <AuthenticatedLayout
             header={
@@ -55,7 +51,10 @@ export default function Create() {
                 </h2>
             }
         >
-            <form className="mt-6 w-full h-full flex justify-center space-y-6" onSubmit={(event) => handleSubmit(event)}>
+            <form
+                className="mt-6 w-full h-full flex justify-center space-y-6"
+                onSubmit={handleSubmit}
+            >
                 <div className="space-y-12">
                     <div className="border-b border-gray-900/10 pb-12">
                         <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -67,6 +66,25 @@ export default function Create() {
                         <div className="mt-10 space-y-8">
                             <div className="flex items-center gap-x-3">
                                 <label
+                                    htmlFor="image"
+                                    className="text-sm leading-6 text-gray-600"
+                                >
+                                    Images
+                                </label>
+                                <input
+                                    onChange={(e) =>
+                                        setData("image", e.target.files)
+                                    }
+                                    type="file"
+                                    multiple
+                                    name="image"
+                                    id="image"
+                                    required
+                                ></input>
+                            </div>
+
+                            <div className="flex items-center gap-x-3">
+                                <label
                                     htmlFor="title"
                                     className="text-sm leading-6 text-gray-600"
                                 >
@@ -76,6 +94,10 @@ export default function Create() {
                                     type="text"
                                     name="title"
                                     id="title"
+                                    value={data.title}
+                                    onChange={(e) =>
+                                        setData("title", e.target.value)
+                                    }
                                     required
                                 ></input>
                             </div>
@@ -91,6 +113,10 @@ export default function Create() {
                                     type="text"
                                     name="description"
                                     id="description"
+                                    value={data.description}
+                                    onChange={(e) =>
+                                        setData("description", e.target.value)
+                                    }
                                     required
                                 ></input>
                             </div>
@@ -104,8 +130,12 @@ export default function Create() {
                                 </label>
                                 <input
                                     type="datetime-local"
-                                    name="date_start"
-                                    id="date_start"
+                                    name="start_time"
+                                    id="start_time"
+                                    value={data.start_time}
+                                    onChange={(e) =>
+                                        setData("start_time", e.target.value)
+                                    }
                                     required
                                 ></input>
                             </div>
@@ -119,8 +149,12 @@ export default function Create() {
                                 </label>
                                 <input
                                     type="datetime-local"
-                                    name="date_end"
-                                    id="date_end"
+                                    name="end_time"
+                                    id="end_time"
+                                    value={data.end_time}
+                                    onChange={(e) =>
+                                        setData("end_time", e.target.value)
+                                    }
                                     required
                                 ></input>
                             </div>
@@ -136,13 +170,17 @@ export default function Create() {
                                     type="text"
                                     name="location"
                                     id="location"
+                                    value={data.location}
+                                    onChange={(e) =>
+                                        setData("location", e.target.value)
+                                    }
                                     required
                                 ></input>
                             </div>
-                            
+
                             <div className="flex items-center gap-x-3">
                                 <label
-                                    htmlFor="location"
+                                    htmlFor="capacity"
                                     className="text-sm leading-6 text-gray-600"
                                 >
                                     Capacity
@@ -153,10 +191,16 @@ export default function Create() {
                                     max="200"
                                     name="capacity"
                                     id="capacity"
+                                    value={data.capacity}
+                                    onChange={(e) =>
+                                        setData("capacity", e.target.value)
+                                    }
                                     required
                                 ></input>
                             </div>
-                            <button type="submit">Submit</button>
+                            <button type="submit" disabled={processing}>
+                                Submit
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -164,3 +208,4 @@ export default function Create() {
         </AuthenticatedLayout>
     );
 }
+

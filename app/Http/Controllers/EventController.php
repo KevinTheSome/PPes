@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Auth;
-
+use Storage;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -20,9 +20,27 @@ class EventController extends Controller
         return json_encode(Event::findOrFail($request->id)->where('organizer_id', Auth::user()->id));
     }
 
+
     public function create(Request $request)
     {
-        Event::create($request->all());
+        $event = new Event();
+
+        $images = $request->file('image');
+        $imagePath = [];
+        foreach ($images as $image) {
+            $imagePath[] = $image->store('events', 'public');
+        }
+        
+        $event->organizer_id = $request->organizer_id;
+        $event->images = json_encode($imagePath);
+        $event->title = $request->title;
+        $event->description = $request->description;
+        $event->start_time = $request->start_time;
+        $event->end_time = $request->end_time;
+        $event->location = $request->location;
+        $event->capacity = $request->capacity;
+
+        $event->save();
     }
 
     public function edit(Request $request)

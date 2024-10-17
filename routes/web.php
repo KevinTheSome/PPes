@@ -24,6 +24,9 @@ Route::get('/events', function () {
     return Inertia::render('Events');
 })->Middleware(['auth', 'verified'])->name('events');
 
+Route::get('/test', function () {
+    return Inertia::render('Test');
+})->Middleware(['auth', 'verified'])->name('test'); 
 
 
 Route::get('/events/create', function () {
@@ -45,6 +48,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/api/create', [EventController::class, 'create'])->name('api.create');
     Route::put('/api/edit/{id}', [EventController::class, 'update'])->name('api.update');
     Route::delete('/api/delete/{id}', [EventController::class, 'delete'])->name('api.delete');
+
+    Route::post('/api/image' , [EventController::class, 'uploadImage'])->name('api.image');
+
 });
 
 require __DIR__.'/auth.php';

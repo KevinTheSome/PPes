@@ -17,9 +17,14 @@ class EventFactory extends Factory
      */
     public function definition(): array
     {
+        $images = [];
+        for ($i = 0; $i < rand(1, 5); $i++) {
+            $images[] = 'image-' . $i . '.jpg';
+        }
         return [
             'organizer_id' => User::all()->random()->id,
             'title' => $this->faker->sentence(),
+            'images' => json_encode($images),
             'description' => $this->faker->sentence(),
             'start_time' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
             'end_time' => $this->faker->dateTimeBetween('+1 week', '+2 week'),
