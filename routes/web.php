@@ -43,6 +43,8 @@ Route::get('/events/show/{id}', function () {
     return Inertia::render('Events/Show');
 })->Middleware(['auth', 'verified'])->name('events.show');
 
+Route::get('/events/edit/{id}', [EventController::class, 'edit'])->Middleware(['auth', 'verified']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

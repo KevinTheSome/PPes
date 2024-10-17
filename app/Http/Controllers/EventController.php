@@ -44,9 +44,40 @@ class EventController extends Controller
         $event->save();
     }
 
-    public function edit(Request $request)
+    public function edit(Request $request , $id)
     {
-        Event::findorfail($request->id)->where('organizer_id', Auth::user()->id)->update($request->all());
+        $event = Event::findorfail($request->id)->where('organizer_id', Auth::user()->id)->update($request->all());
+
+        Inertia::render('Events/Edit', ['event' -> $event]);
+
+    }
+
+    public function update(Request $request , $id)
+    {
+        $event = Event::findorfail($request->id)->where('organizer_id', Auth::user()->id)->update($request->all());
+
+        $request->validate([
+            'organizer_id' => 'required',
+            'title' => 'required',
+            'description' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'location' => 'required',
+            'capacity' => 'required',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+        ]);
+
+        $event->organizer_id = $request->organizer_id;
+        $event->title = $request->title;
+        $event->description = $request->description;
+        $event->start_time = $request->start_time;
+        $event->end_time = $request->end_time;
+        $event->location = $request->location;
+        $event->capacity = $request->capacity;
+        
+        $event->save();
+
     }
 
     public function destroy(Request $request)
