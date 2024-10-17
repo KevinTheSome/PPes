@@ -28,7 +28,9 @@ Route::get('/test', function () {
     return Inertia::render('Test');
 })->Middleware(['auth', 'verified'])->name('test'); 
 
-
+Route::get('/storage/{any}', function ($any) {
+    return response()->file(storage_path('app/public/storage/' . $any));
+})->where('any', '.*');
 Route::get('/events/create', function () {
     return Inertia::render('Events/Create');
 })->Middleware(['auth', 'verified'])->name('events.create');
@@ -36,6 +38,10 @@ Route::get('/events/create', function () {
 Route::get('/events/update', function () {
     return Inertia::render('Events/Update');
 })->Middleware(['auth', 'verified'])->name('events.update');
+
+Route::get('/events/show', function () {
+    return Inertia::render('Events/Show');
+})->Middleware(['auth', 'verified'])->name('events.show');
 
 
 Route::middleware('auth')->group(function () {
@@ -49,7 +55,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/api/edit/{id}', [EventController::class, 'update'])->name('api.update');
     Route::delete('/api/delete/{id}', [EventController::class, 'delete'])->name('api.delete');
 
-    Route::post('/api/image' , [EventController::class, 'uploadImage'])->name('api.image');
 
 });
 

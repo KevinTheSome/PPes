@@ -60,7 +60,9 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/public/events'),
             'url' => env('APP_URL').'/storage/events',
+            'serve' => true,
             'visibility' => 'public',
+            'throw' => false,
         ],
     ],
 
@@ -77,6 +79,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('storage/events') => storage_path('app/public/events'),
     ],
 
 ];

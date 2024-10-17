@@ -16,8 +16,9 @@ class EventController extends Controller
 
     public function show(Request $request)
     {
-
-        return json_encode(Event::findOrFail($request->id)->where('organizer_id', Auth::user()->id));
+        $event = Event::findOrFail($request->id);
+        $images = json_decode($event->images);
+        return response()->json(['event' => $event, 'images' => $images]);
     }
 
 
@@ -30,7 +31,7 @@ class EventController extends Controller
         foreach ($images as $image) {
             $imagePath[] = $image->store('events', 'public');
         }
-        
+
         $event->organizer_id = $request->organizer_id;
         $event->images = json_encode($imagePath);
         $event->title = $request->title;
