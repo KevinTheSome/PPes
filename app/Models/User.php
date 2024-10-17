@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'status',
     ];
 
     /**
@@ -30,6 +31,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        
         'remember_token',
     ];
 
@@ -52,7 +54,7 @@ class User extends Authenticatable
 
     public function rsvps()
     {
-        return $this->hasMany(RSVP::class);
+        return $this->hasMany(RSPV::class);
     }
 
     public function attendingEvents()

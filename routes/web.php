@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EventController;
+use GuzzleHttp\Middleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,15 +20,31 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/events', function () {
+    return Inertia::render('Events');
+})->Middleware(['auth', 'verified'])->name('events');
+
+
+
+Route::get('/events/create', function () {
+    return Inertia::render('Events/Create');
+})->Middleware(['auth', 'verified'])->name('events.create');
+
+Route::get('/events/update', function () {
+    return Inertia::render('Events/Update');
+})->Middleware(['auth', 'verified'])->name('events.update');
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/api/all', [CalendarController::class, 'index'])->name('api.index');
-    Route::get('/api/show/{id}', [CalendarController::class, 'show'])->name('api.show');
-    Route::get('/api/edit/{id}', [CalendarController::class, 'update'])->name('api.update');
-    Route::get('/api/delete/{id}', [CalendarController::class, 'delete'])->name('api.delete');
+    Route::get('/api/events', [EventController::class, 'index'])->name('api.index');
+    Route::get('/api/show/{id}', [EventController::class, 'show'])->name('api.show');
+    Route::post('/api/create', [EventController::class, 'create'])->name('api.create');
+    Route::put('/api/edit/{id}', [EventController::class, 'update'])->name('api.update');
+    Route::delete('/api/delete/{id}', [EventController::class, 'delete'])->name('api.delete');
 });
 
 require __DIR__.'/auth.php';
