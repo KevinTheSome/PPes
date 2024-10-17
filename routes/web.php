@@ -22,6 +22,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/api/all', [CalendarController::class, 'index'])->name('api.index');
+    Route::get('/api/show/{id}', [CalendarController::class, 'show'])->name('api.show');
+    Route::get('/api/edit/{id}', [CalendarController::class, 'update'])->name('api.update');
+    Route::get('/api/delete/{id}', [CalendarController::class, 'delete'])->name('api.delete');
 });
 
 require __DIR__.'/auth.php';
