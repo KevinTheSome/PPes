@@ -10,11 +10,11 @@ export default function Show() {
     useEffect(() => {
         console.log(user)
         axios
-            .get("/api/show/11")
+            .get(`/api/show/${route().params.id}`)
             .then((response) => {
-                setEvent(response.data);
+                setEvent(response.data.event);
                 setImages(response.data.images);
-                console.log(response.data.images)
+                console.log(response.data)
             })
             .catch((error) => {
                 console.error(error);

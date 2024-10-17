@@ -39,7 +39,7 @@ Route::get('/events/update', function () {
     return Inertia::render('Events/Update');
 })->Middleware(['auth', 'verified'])->name('events.update');
 
-Route::get('/events/show', function () {
+Route::get('/events/show/{id}', function () {
     return Inertia::render('Events/Show');
 })->Middleware(['auth', 'verified'])->name('events.show');
 

@@ -11,10 +11,10 @@ export default function ImageContainer({ images }) {
     };
 
     return (
-        <div className="max-w-sm rounded overflow-hidden shadow-lg">
-            <div className="relative">
+        <div className="max-w-sm h-64 rounded overflow-hidden shadow-lg">
+            <div className="relative h-full">
                 <img
-                    className="w-full"
+                    className="w-full h-full object-contain"
                     src={"/storage/"+images[currentIndex]}
                     alt="Event Image"
                 />
@@ -62,5 +62,4 @@ export default function ImageContainer({ images }) {
         </div>
     );
 }
-
 
