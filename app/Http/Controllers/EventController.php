@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Auth;
-use Storage;
+// use Storage;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -22,7 +22,8 @@ class EventController extends Controller
     }
 
 
-    public function create(Request $request)
+    public function 
+    create(Request $request)
     {
         $event = new Event();
 

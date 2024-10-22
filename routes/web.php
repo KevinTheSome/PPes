@@ -31,6 +31,9 @@ Route::get('/test', function () {
 Route::get('/storage/{any}', function ($any) {
     return response()->file(storage_path('app/public/storage/' . $any));
 })->where('any', '.*');
+
+
+
 Route::get('/events/create', function () {
     return Inertia::render('Events/Create');
 })->Middleware(['auth', 'verified'])->name('events.create');
