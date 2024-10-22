@@ -47,9 +47,8 @@ class EventController extends Controller
 
     public function edit(Request $request , $id)
     {
-        $event = Event::findorfail($request->id)->where('organizer_id', Auth::user()->id)->update($request->all());
-
-        Inertia::render('Events/Edit', ['event' -> $event]);
+        $event = Event::findorfail($id);
+        return Inertia::render('Events/Edit', ['event' => $event]);
 
     }
 

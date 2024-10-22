@@ -1,18 +1,18 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm } from "@inertiajs/react";
 import { useEffect } from "react";
-import {usePage} from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
 import axios from "axios";
 
 export default function Create() {
     const { data, setData, post, processing, errors } = useForm({
         organizer_id: usePage().props.auth.user.id,
-        title: "",
-        description: "",
-        start_time: "",
-        end_time: "",
-        location: "",
-        capacity: 1,
+        title: usePage().props.event.title,
+        description: usePage().props.event.description,
+        start_time: usePage().props.event.start_time,
+        end_time: usePage().props.event.end_time,
+        location: usePage().props.event.location,
+        capacity: usePage().props.event.capacity,
         image: [],
     });
     const user = usePage().props.auth.user;
@@ -21,11 +21,12 @@ export default function Create() {
         if (user.status == "user") {
             window.location.href = route("dashboard");
         }
+        console.log(data);
     }, []);
 
     function handleSubmit(event) {
         event.preventDefault();
-        if(!checkDates()) {
+        if (!checkDates()) {
             alert("Invalid DATAAAAA!!!");
             return;
         }
@@ -47,7 +48,7 @@ export default function Create() {
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Create Event
+                    Edit Event
                 </h2>
             }
         >
@@ -199,7 +200,7 @@ export default function Create() {
                                 ></input>
                             </div>
                             <button type="submit" disabled={processing}>
-                                Submit
+                                Update
                             </button>
                         </div>
                     </div>
@@ -208,4 +209,3 @@ export default function Create() {
         </AuthenticatedLayout>
     );
 }
-
