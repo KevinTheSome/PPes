@@ -22,15 +22,14 @@ class EventController extends Controller
     }
 
 
-    public function 
-    create(Request $request)
+    public function create(Request $request)
     {
         $event = new Event();
 
         $images = $request->file('image');
         $imagePath = [];
         foreach ($images as $image) {
-            $imagePath[] = $image->store('events', 'public');
+            $imagePath[] = "/storage/" . $image->store('events', 'public');
         }
 
         $event->organizer_id = $request->organizer_id;
@@ -45,14 +44,14 @@ class EventController extends Controller
         $event->save();
     }
 
-    public function edit(Request $request , $id)
+    public function edit(Request $request, $id)
     {
         $event = Event::findorfail($id);
         return Inertia::render('Events/Edit', ['event' => $event]);
 
     }
 
-    public function update(Request $request , $id)
+    public function update(Request $request, $id)
     {
         $event = Event::findorfail($request->id)->where('organizer_id', Auth::user()->id)->update($request->all());
 
@@ -75,7 +74,7 @@ class EventController extends Controller
         $event->end_time = $request->end_time;
         $event->location = $request->location;
         $event->capacity = $request->capacity;
-        
+
         $event->save();
 
     }

@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm } from "@inertiajs/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePage } from "@inertiajs/react";
 import axios from "axios";
 
@@ -9,8 +9,8 @@ export default function Create() {
         organizer_id: usePage().props.auth.user.id,
         title: usePage().props.event.title,
         description: usePage().props.event.description,
-        start_time: usePage().props.event.start_time,
-        end_time: usePage().props.event.end_time,
+        start_time: new Date(usePage().props.event.start_time).toISOString().split('T')[0] + ' ' + new Date(usePage().props.event.start_time).toLocaleTimeString(),
+        end_time: new Date(usePage().props.event.end_time).toISOString().split('T')[0] + ' ' + new Date(usePage().props.event.end_time).toLocaleTimeString(),
         location: usePage().props.event.location,
         capacity: usePage().props.event.capacity,
         image: [],
@@ -18,10 +18,9 @@ export default function Create() {
     const user = usePage().props.auth.user;
 
     useEffect(() => {
-        if (user.status == "user") {
+        if (user.status == "atendee" || user.status == null) {
             window.location.href = route("dashboard");
         }
-        console.log(data);
     }, []);
 
     function handleSubmit(event) {
@@ -33,6 +32,20 @@ export default function Create() {
         console.log(data);
         post(route("api.create"));
     }
+
+    const [previews, setPreviews] = useState([]);
+
+    useEffect(() => {
+        setPreviews([]);
+        if (data.image.length > 0) {
+            for (let i = 0; i < data.image.length; i++) {
+                setPreviews((prev) => [
+                    ...prev,
+                    URL.createObjectURL(data.image[i]),
+                ]);
+            }
+        }
+    }, [data.image]);
 
     function checkDates() {
         const startDate = new Date(data.start_time);
@@ -82,6 +95,15 @@ export default function Create() {
                                     id="image"
                                     required
                                 ></input>
+                                {previews.map((preview, index) => (
+                                    <img 
+
+                                    key={index}
+                                    src={preview}
+                                    alt="preview"
+                                    className="w-32 h-32"
+                                    />
+                                ))}
                             </div>
 
                             <div className="flex items-center gap-x-3">

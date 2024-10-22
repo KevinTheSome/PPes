@@ -30,7 +30,6 @@ class EventFactory extends Factory
             'end_time' => $this->faker->dateTimeBetween('+1 week', '+2 week'),
             'location' => $this->faker->address(),
             'capacity' => $this->faker->numberBetween(1, 100),
-            
         ];
     }
 }

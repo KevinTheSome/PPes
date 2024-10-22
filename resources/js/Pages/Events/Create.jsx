@@ -1,8 +1,9 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm } from "@inertiajs/react";
-import { useEffect } from "react";
-import {usePage} from "@inertiajs/react";
+import { useEffect, useState } from "react";
+import { usePage } from "@inertiajs/react";
 import axios from "axios";
+import ImageContainer from "@/Components/ImageContainer";
 
 export default function Create() {
     const { data, setData, post, processing, errors } = useForm({
@@ -18,14 +19,27 @@ export default function Create() {
     const user = usePage().props.auth.user;
 
     useEffect(() => {
-        if (user.status == "user") {
+        if (user.status == "attendee" || user.status == null) {
             window.location.href = route("dashboard");
         }
     }, []);
+    const [previews, setPreviews] = useState([]);
+
+    useEffect(() => {
+        setPreviews([]);
+        if (data.image.length > 0) {
+            for (let i = 0; i < data.image.length; i++) {
+                setPreviews((prev) => [
+                    ...prev,
+                    URL.createObjectURL(data.image[i]),
+                ]);
+            }
+        }
+    }, [data.image]);
 
     function handleSubmit(event) {
         event.preventDefault();
-        if(!checkDates()) {
+        if (!checkDates()) {
             alert("Invalid DATAAAAA!!!");
             return;
         }
@@ -80,7 +94,10 @@ export default function Create() {
                                     id="image"
                                     required
                                 ></input>
-                            </div>
+
+                                {previews.length > 0 && 
+                                <ImageContainer images={previews} />}   
+                                </div>
 
                             <div className="flex items-center gap-x-3">
                                 <label
@@ -207,4 +224,3 @@ export default function Create() {
         </AuthenticatedLayout>
     );
 }
-

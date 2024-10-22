@@ -18,7 +18,7 @@ export default function Update() {
     const user = usePage().props.auth.user;
 
     useEffect(() => {
-        if (user.status == "user") {
+        if (user.status == "atendee" || user.status == null) {
             window.location.href = route("dashboard");
         }
     }, []);

@@ -1,7 +1,33 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import { Head } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function Dashboard() {
+    const [events, setEvent] = useState([])
+    const [formatted, setFormatted] = useState([])
+    useEffect(() => {
+        axios.get(route('api.index'))
+            .then(response => {
+                setEvent(response.data)
+            })  
+            console.log(events)
+    },[])
+    
+    useEffect(() => {
+        let what = events.map((event) => {
+            return {
+                title: event.title,
+                start: event.start_time.split("T")[0],
+                end: event.end_time.split("T")[0],
+            }
+        })
+        setFormatted(what)
+    },[events])
+    
+
     return (
         <AuthenticatedLayout
             header={
@@ -11,16 +37,11 @@ export default function Dashboard() {
             }
         >
             <Head title="Dashboard" />
-
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            You're logged in!
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <FullCalendar
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+                events={formatted}
+            />
         </AuthenticatedLayout>
     );
 }

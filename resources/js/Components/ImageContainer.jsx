@@ -15,7 +15,7 @@ export default function ImageContainer({ images }) {
             <div className="relative h-full">
                 <img
                     className="w-full h-full object-contain"
-                    src={"/storage/"+images[currentIndex]}
+                    src={images[currentIndex]}
                     alt="Event Image"
                 />
                 <button
