@@ -65,159 +65,172 @@ export default function Create() {
             }
         >
             <form
-                className="mt-6 w-full h-full flex justify-center space-y-6"
+                className="mt-6 w-full max-w-2xl mx-auto space-y-8"
                 onSubmit={handleSubmit}
             >
-                <div className="space-y-12">
-                    <div className="border-b border-gray-900/10 pb-12">
-                        <h2 className="text-base font-semibold leading-7 text-gray-900">
-                            Event Details
-                        </h2>
-                        <p className="mt-1 text-sm leading-6 text-gray-600">
-                            This information will be displayed publicly
-                        </p>
-                        <div className="mt-10 space-y-8">
-                            <div className="flex items-center gap-x-3">
-                                <label
-                                    htmlFor="image"
-                                    className="text-sm leading-6 text-gray-600"
-                                >
-                                    Images
-                                </label>
-                                <input
-                                    onChange={(e) =>
-                                        setData("image", e.target.files)
-                                    }
-                                    type="file"
-                                    multiple
-                                    name="image"
-                                    id="image"
-                                    required
-                                ></input>
+                <div className="bg-white shadow rounded-lg p-6">
+                    <h2 className="text-lg font-semibold text-gray-900">
+                        Event Details
+                    </h2>
+                    <p className="text-sm text-gray-600 mb-4">
+                        This information will be displayed publicly.
+                    </p>
 
-                                {previews.length > 0 && 
-                                <ImageContainer images={previews} />}   
-                                </div>
-
-                            <div className="flex items-center gap-x-3">
-                                <label
-                                    htmlFor="title"
-                                    className="text-sm leading-6 text-gray-600"
-                                >
-                                    Title
-                                </label>
-                                <input
-                                    type="text"
-                                    name="title"
-                                    id="title"
-                                    value={data.title}
-                                    onChange={(e) =>
-                                        setData("title", e.target.value)
-                                    }
-                                    required
-                                ></input>
-                            </div>
-
-                            <div className="flex items-center gap-x-3">
-                                <label
-                                    htmlFor="description"
-                                    className="text-sm leading-6 text-gray-600"
-                                >
-                                    Description
-                                </label>
-                                <input
-                                    type="text"
-                                    name="description"
-                                    id="description"
-                                    value={data.description}
-                                    onChange={(e) =>
-                                        setData("description", e.target.value)
-                                    }
-                                    required
-                                ></input>
-                            </div>
-
-                            <div className="flex items-center gap-x-3">
-                                <label
-                                    htmlFor="starts"
-                                    className="text-sm leading-6 text-gray-600"
-                                >
-                                    Begins
-                                </label>
-                                <input
-                                    type="datetime-local"
-                                    name="start_time"
-                                    id="start_time"
-                                    value={data.start_time}
-                                    onChange={(e) =>
-                                        setData("start_time", e.target.value)
-                                    }
-                                    required
-                                ></input>
-                            </div>
-
-                            <div className="flex items-center gap-x-3">
-                                <label
-                                    htmlFor="ends"
-                                    className="text-sm leading-6 text-gray-600"
-                                >
-                                    Ends
-                                </label>
-                                <input
-                                    type="datetime-local"
-                                    name="end_time"
-                                    id="end_time"
-                                    value={data.end_time}
-                                    onChange={(e) =>
-                                        setData("end_time", e.target.value)
-                                    }
-                                    required
-                                ></input>
-                            </div>
-
-                            <div className="flex items-center gap-x-3">
-                                <label
-                                    htmlFor="location"
-                                    className="text-sm leading-6 text-gray-600"
-                                >
-                                    Location
-                                </label>
-                                <input
-                                    type="text"
-                                    name="location"
-                                    id="location"
-                                    value={data.location}
-                                    onChange={(e) =>
-                                        setData("location", e.target.value)
-                                    }
-                                    required
-                                ></input>
-                            </div>
-
-                            <div className="flex items-center gap-x-3">
-                                <label
-                                    htmlFor="capacity"
-                                    className="text-sm leading-6 text-gray-600"
-                                >
-                                    Capacity
-                                </label>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    max="200"
-                                    name="capacity"
-                                    id="capacity"
-                                    value={data.capacity}
-                                    onChange={(e) =>
-                                        setData("capacity", e.target.value)
-                                    }
-                                    required
-                                ></input>
-                            </div>
-                            <button type="submit" disabled={processing}>
-                                Submit
-                            </button>
+                    <div className="space-y-4">
+                        <div className="flex flex-col">
+                            <label
+                                htmlFor="image"
+                                className="text-sm font-medium text-gray-700"
+                            >
+                                Images
+                            </label>
+                            <input
+                                onChange={(e) =>
+                                    setData("image", e.target.files)
+                                }
+                                type="file"
+                                multiple
+                                name="image"
+                                id="image"
+                                className="mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-orange-300"
+                                required
+                            />
+                            {previews.length > 0 && (
+                                <ImageContainer images={previews} />
+                            )}
                         </div>
+
+                        <div className="flex flex-col">
+                            <label
+                                htmlFor="title"
+                                className="text-sm font-medium text-gray-700"
+                            >
+                                Title
+                            </label>
+                            <input
+                                type="text"
+                                name="title"
+                                id="title"
+                                value={data.title}
+                                onChange={(e) =>
+                                    setData("title", e.target.value)
+                                }
+                                className="mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-orange-300"
+                                required
+                            />
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label
+                                htmlFor="description"
+                                className="text-sm font-medium text-gray-700"
+                            >
+                                Description
+                            </label>
+                            <input
+                                type="text"
+                                name="description"
+                                id="description"
+                                value={data.description}
+                                onChange={(e) =>
+                                    setData("description", e.target.value)
+                                }
+                                className="mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-orange-300"
+                                required
+                            />
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label
+                                htmlFor="start_time"
+                                className="text-sm font-medium text-gray-700"
+                            >
+                                Begins
+                            </label>
+                            <input
+                                type="datetime-local"
+                                name="start_time"
+                                id="start_time"
+                                value={data.start_time}
+                                onChange={(e) =>
+                                    setData("start_time", e.target.value)
+                                }
+                                className="mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-orange-300"
+                                required
+                            />
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label
+                                htmlFor="end_time"
+                                className="text-sm font-medium text-gray-700"
+                            >
+                                Ends
+                            </label>
+                            <input
+                                type="datetime-local"
+                                name="end_time"
+                                id="end_time"
+                                value={data.end_time}
+                                onChange={(e) =>
+                                    setData("end_time", e.target.value)
+                                }
+                                className="mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-orange-300"
+                                required
+                            />
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label
+                                htmlFor="location"
+                                className="text-sm font-medium text-gray-700"
+                            >
+                                Location
+                            </label>
+                            <input
+                                type="text"
+                                name="location"
+                                id="location"
+                                value={data.location}
+                                onChange={(e) =>
+                                    setData("location", e.target.value)
+                                }
+                                className="mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-orange-300"
+                                required
+                            />
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label
+                                htmlFor="capacity"
+                                className="text-sm font-medium text-gray-700"
+                            >
+                                Capacity
+                            </label>
+                            <input
+                                type="number"
+                                min="1"
+                                max="200"
+                                name="capacity"
+                                id="capacity"
+                                value={data.capacity}
+                                onChange={(e) =>
+                                    setData("capacity", e.target.value)
+                                }
+                                className="mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-orange-300"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className="mt-6">
+                        <button
+                            type="submit"
+                            disabled={processing}
+                            className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-md transition ease-in-out duration-300"
+                        >
+                            Submit
+                        </button>
                     </div>
                 </div>
             </form>
