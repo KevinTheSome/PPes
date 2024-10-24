@@ -25,25 +25,25 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         </li>
                         <li>
                             <Link
-                                href="/dashbord"
+                                href={route('dashboard')}
                                 className="hover:text-gray-100 transition duration-300"
                             >
-                                About
+                                Dashboard
                             </Link>
                         </li>
                         <li>
                             <Link
-                                href="/contact"
+                               href={route('events')}
                                 className="hover:text-gray-100 transition duration-300"
                             >
-                                Contact
+                                Events
                             </Link>
                         </li>
                     </ul>
 
                     {/* Call-to-action Button */}
                     <Link
-                        href="#contact"
+                        href={route('register')}
                         className="bg-teal-500 text-white px-6 py-2 rounded-md hover:bg-teal-600 transition duration-300"
                     >
                         Get Started
