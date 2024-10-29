@@ -8,7 +8,6 @@ export default function Events() {
     const user = usePage().props.auth.user;
 
     useEffect(() => {
-        console.log(user);
         if (user.status == "user") {
             window.location.href = route("dashboard");
         }

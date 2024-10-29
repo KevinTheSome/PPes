@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function ImageContainer({ images }) {
+export default function ImageContainer({ images, className }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const handleNext = () => {
         setCurrentIndex((currentIndex + 1) % images.length);
@@ -11,7 +11,8 @@ export default function ImageContainer({ images }) {
     };
 
     return (
-        <div className="max-w-sm h-64 rounded overflow-hidden shadow-lg">
+
+        <div className={"max-w-sm h-64 rounded overflow-hidden shadow-lg " + className}>
             <div className="relative h-full">
                 <img
                     className="w-full h-full object-contain"

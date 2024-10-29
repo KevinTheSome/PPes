@@ -29,7 +29,6 @@ export default function Update() {
             alert("Invalid DATAAAAA!!!");
             return;
         }
-        console.log(data);
         post(route("api.create"));
     }
 

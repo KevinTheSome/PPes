@@ -10,8 +10,6 @@ export default function Test() {
         for (const file of files) {
             formData.append("images", file);
         }
-        console.log(formData)
-        console.log(images)
         fetch("/api/image", {
             method: "POST",
             body: formData,

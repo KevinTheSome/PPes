@@ -1,16 +1,25 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { useForm } from "@inertiajs/react";
+import { usePage, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
-import { usePage } from "@inertiajs/react";
 import axios from "axios";
-
 export default function Create() {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing } = useForm({
+        id: usePage().props.event.id,
         organizer_id: usePage().props.auth.user.id,
         title: usePage().props.event.title,
         description: usePage().props.event.description,
-        start_time: new Date(usePage().props.event.start_time).toISOString().split('T')[0] + ' ' + new Date(usePage().props.event.start_time).toLocaleTimeString(),
-        end_time: new Date(usePage().props.event.end_time).toISOString().split('T')[0] + ' ' + new Date(usePage().props.event.end_time).toLocaleTimeString(),
+        start_time:
+            new Date(usePage().props.event.start_time)
+                .toISOString()
+                .split("T")[0] +
+            " " +
+            new Date(usePage().props.event.start_time).toLocaleTimeString(),
+        end_time:
+            new Date(usePage().props.event.end_time)
+                .toISOString()
+                .split("T")[0] +
+            " " +
+            new Date(usePage().props.event.end_time).toLocaleTimeString(),
         location: usePage().props.event.location,
         capacity: usePage().props.event.capacity,
         image: [],
@@ -18,6 +27,7 @@ export default function Create() {
     const user = usePage().props.auth.user;
 
     useEffect(() => {
+    
         if (user.status == "atendee" || user.status == null) {
             window.location.href = route("dashboard");
         }
@@ -29,8 +39,9 @@ export default function Create() {
             alert("Invalid DATAAAAA!!!");
             return;
         }
-        console.log(data);
-        post(route("api.create"));
+    
+        console.log(data)
+        post(route("api.update", data.id), data);
     }
 
     const [previews, setPreviews] = useState([]);
@@ -38,10 +49,10 @@ export default function Create() {
     useEffect(() => {
         setPreviews([]);
         if (data.image.length > 0) {
-            for (let i = 0; i < data.image.length; i++) {
+            for (const element of data.image) {
                 setPreviews((prev) => [
                     ...prev,
-                    URL.createObjectURL(data.image[i]),
+                    URL.createObjectURL(element),
                 ]);
             }
         }
@@ -96,12 +107,11 @@ export default function Create() {
                                     required
                                 ></input>
                                 {previews.map((preview, index) => (
-                                    <img 
-
-                                    key={index}
-                                    src={preview}
-                                    alt="preview"
-                                    className="w-32 h-32"
+                                    <img
+                                        key={index}
+                                        src={preview}
+                                        alt="preview"
+                                        className="w-32 h-32"
                                     />
                                 ))}
                             </div>

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use Auth;
-// use Storage;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -25,6 +24,19 @@ class EventController extends Controller
     public function create(Request $request)
     {
         $event = new Event();
+
+
+        $request->validate([
+            'organizer_id' => 'required',
+            'title' => 'required',
+            'description' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'location' => 'required',
+            'capacity' => 'required',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+        ]);
 
         $images = $request->file('image');
         $imagePath = [];
@@ -53,7 +65,7 @@ class EventController extends Controller
 
     public function update(Request $request, $id)
     {
-        $event = Event::findorfail($request->id)->where('organizer_id', Auth::user()->id)->update($request->all());
+        $event = Event::findorfail($request->id)->where('organizer_id', Auth::user()->id);
 
         $request->validate([
             'organizer_id' => 'required',
@@ -63,12 +75,19 @@ class EventController extends Controller
             'end_time' => 'required',
             'location' => 'required',
             'capacity' => 'required',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-
+            'image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+
+        $images = $request->file('image');
+        $imagePath = [];
+        foreach ($images as $image) {
+            $imagePath[] = "/storage/" . $image->store('events', 'public');
+        }
 
         $event->organizer_id = $request->organizer_id;
         $event->title = $request->title;
+        $event->images = json_encode($imagePath);
         $event->description = $request->description;
         $event->start_time = $request->start_time;
         $event->end_time = $request->end_time;

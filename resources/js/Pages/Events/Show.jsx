@@ -1,21 +1,18 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { usePage } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import ImageContainer from "@/Components/ImageContainer";
 export default function Show() {
     const [event, setEvent] = useState({});
     const [images, setImages] = useState([]);
-    const user = usePage().props.auth.user;
+
     useEffect(() => {
-        console.log(user)
         axios
             .get(`/api/show/${route().params.id}`)
             .then((response) => {
                 setEvent(response.data.event);
                 setImages(response.data.images);
-                console.log(response.data)
-            })
+                })
             .catch((error) => {
                 console.error(error);
             });
