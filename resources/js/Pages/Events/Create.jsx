@@ -14,7 +14,7 @@ export default function Create() {
         end_time: "",
         location: "",
         capacity: 1,
-        image: [],
+        images: [],
     });
     const user = usePage().props.auth.user;
 
@@ -27,15 +27,15 @@ export default function Create() {
 
     useEffect(() => {
         setPreviews([]);
-        if (data.image.length > 0) {
-            for (let i = 0; i < data.image.length; i++) {
+        if (data.images.length > 0) {
+            for (const element of data.images) {
                 setPreviews((prev) => [
                     ...prev,
-                    URL.createObjectURL(data.image[i]),
+                    URL.createObjectURL(element),
                 ]);
             }
         }
-    }, [data.image]);
+    }, [data.images]);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -86,7 +86,7 @@ export default function Create() {
                             </label>
                             <input
                                 onChange={(e) =>
-                                    setData("image", e.target.files)
+                                    setData("images", e.target.files)
                                 }
                                 type="file"
                                 multiple

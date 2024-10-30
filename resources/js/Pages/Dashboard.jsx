@@ -8,7 +8,7 @@ import axios from "axios";
 
 export default function Dashboard() {
     const [events, setEvents] = useState([]);
-    const [formatted, setFormatted] = useState([]);
+    const [formattedEvents, setFormatted] = useState([]);
     useEffect(() => {
         axios.get(route("api.index")).then((response) => {
             setEvents(response.data);

@@ -22,7 +22,7 @@ export default function CreateOrUpdate({ isEditing = false }) {
             : "",
         location: isEditing ? eventProps.location : "",
         capacity: isEditing ? eventProps.capacity : 1,
-        image: [],
+        images: [],
     });
 
     const user = usePage().props.auth.user;
@@ -38,15 +38,15 @@ export default function CreateOrUpdate({ isEditing = false }) {
 
     useEffect(() => {
         setPreviews([]);
-        if (data.image.length > 0) {
-            for (const element of data.image) {
+        if (data.images.length > 0) {
+            for (const element of data.images) {
                 setPreviews((prev) => [
                     ...prev,
                     URL.createObjectURL(element),
                 ]);
             }
         }
-    }, [data.image]);
+    }, [data.images]);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -92,19 +92,19 @@ export default function CreateOrUpdate({ isEditing = false }) {
                     <div className="space-y-4">
                         <div className="flex flex-col">
                             <label
-                                htmlFor="image"
+                                htmlFor="images"
                                 className="text-sm font-medium text-gray-700"
                             >
                                 Images
                             </label>
                             <input
                                 onChange={(e) =>
-                                    setData("image", e.target.files)
+                                    setData("images", e.target.files)
                                 }
                                 type="file"
                                 multiple
-                                name="image"
-                                id="image"
+                                name="images"
+                                id="images"
                                 className="mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-orange-300"
                                 required
                             />

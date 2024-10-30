@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Auth;
+use Log;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -34,16 +35,14 @@ class EventController extends Controller
             'end_time' => 'required',
             'location' => 'required',
             'capacity' => 'required',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-
+            'images.*' => 'required|image|mimes:webp,jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $images = $request->file('image');
+        $images = $request->file('images');
         $imagePath = [];
         foreach ($images as $image) {
-            $imagePath[] = "/storage/" . $image->store('events', 'public');
+            $imagePath[] = '/image/'.$image->store('events', 'public');
         }
-
         $event->organizer_id = $request->organizer_id;
         $event->images = json_encode($imagePath);
         $event->title = $request->title;
@@ -79,7 +78,7 @@ class EventController extends Controller
         ]);
 
 
-        $images = $request->file('image');
+        $images = $request->file('images');
         $imagePath = [];
         foreach ($images as $image) {
             $imagePath[] = "/storage/" . $image->store('events', 'public');

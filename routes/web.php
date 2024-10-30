@@ -28,8 +28,8 @@ Route::get('/test', function () {
     return Inertia::render('Test');
 })->Middleware(['auth', 'verified'])->name('test'); 
 
-Route::get('/storage/{any}', function ($any) {
-    return response()->file(storage_path('app/public/storage/' . $any));
+Route::get('/image/{any}', function ($any) {
+    return response()->file(storage_path( 'app/public/'.$any));
 })->where('any', '.*');
 
 
