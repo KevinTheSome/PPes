@@ -29,7 +29,7 @@ export default function CreateOrUpdate({ isEditing = false }) {
 
     useEffect(() => {
     
-        if (user.status === "atendee" || user.status == null) {
+        if ((user.status === "atendee" || user.status != "admin" || user.status == null) && (user.id != eventProps.organizer_id)) {
             window.location.href = route("dashboard");
         }
     }, []);
